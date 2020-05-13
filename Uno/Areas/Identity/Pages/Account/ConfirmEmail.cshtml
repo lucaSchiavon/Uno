@@ -1,0 +1,43 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirm email";
+    Layout = "~/Views/Shared/_FrontLayout.cshtml";
+}
+
+@*<h1>@ViewData["Title"]</h1>
+    <div>
+        <p>
+            Thank you for confirming your email.
+        </p>
+    </div>*@
+
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-lg-6 mb-6 mx-auto">
+            <div class="card h-100">
+                <h4 class="card-header">Confirm email.</h4>
+                <div class="card-body">
+                    @*<p class="card-text">Create a new account.</p>*@
+
+                    <div class="form-group">
+                        <div class="alert alert-success" role="alert">
+                            <h3>Thank you for confirming your email.</h3>
+                            <h5>If you want to login please click below</h5>
+                            <h5><a class="nav-link" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Index","Home")" title="Login">Login to Intranet area</a></h5>
+                        </div>
+                    </div>
+
+                </div>
+                @*<div class="card-footer">
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>*@
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

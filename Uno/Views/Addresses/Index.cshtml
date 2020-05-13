@@ -1,0 +1,120 @@
+﻿@model IEnumerable<Uno.Entities.Address>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RagioneSociale)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cognome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Indirizzo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CAP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comune)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SDI)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pec)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PIVA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProvinciaID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NazioneID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EntityID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EntityTypeID)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RagioneSociale)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cognome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Indirizzo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CAP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comune)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SDI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pec)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PIVA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProvinciaID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NazioneID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntityID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntityTypeID)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AddressID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AddressID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AddressID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

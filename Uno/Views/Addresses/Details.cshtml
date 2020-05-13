@@ -1,0 +1,109 @@
+﻿@model Uno.Entities.Address
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Address</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RagioneSociale)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RagioneSociale)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cognome)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cognome)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Indirizzo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Indirizzo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CAP)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CAP)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Comune)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Comune)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SDI)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SDI)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pec)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pec)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PIVA)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PIVA)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProvinciaID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProvinciaID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NazioneID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NazioneID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsDeleted)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EntityID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EntityID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EntityTypeID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EntityTypeID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.AddressID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

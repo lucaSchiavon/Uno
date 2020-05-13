@@ -1,0 +1,101 @@
+﻿@model Uno.Entities.Address
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Address</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RagioneSociale" class="control-label"></label>
+                <input asp-for="RagioneSociale" class="form-control" />
+                <span asp-validation-for="RagioneSociale" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cognome" class="control-label"></label>
+                <input asp-for="Cognome" class="form-control" />
+                <span asp-validation-for="Cognome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Indirizzo" class="control-label"></label>
+                <input asp-for="Indirizzo" class="form-control" />
+                <span asp-validation-for="Indirizzo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CAP" class="control-label"></label>
+                <input asp-for="CAP" class="form-control" />
+                <span asp-validation-for="CAP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comune" class="control-label"></label>
+                <input asp-for="Comune" class="form-control" />
+                <span asp-validation-for="Comune" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SDI" class="control-label"></label>
+                <input asp-for="SDI" class="form-control" />
+                <span asp-validation-for="SDI" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pec" class="control-label"></label>
+                <input asp-for="Pec" class="form-control" />
+                <span asp-validation-for="Pec" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PIVA" class="control-label"></label>
+                <input asp-for="PIVA" class="form-control" />
+                <span asp-validation-for="PIVA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProvinciaID" class="control-label"></label>
+                <input asp-for="ProvinciaID" class="form-control" />
+                <span asp-validation-for="ProvinciaID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NazioneID" class="control-label"></label>
+                <input asp-for="NazioneID" class="form-control" />
+                <span asp-validation-for="NazioneID" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="EntityID" class="control-label"></label>
+                <input asp-for="EntityID" class="form-control" />
+                <span asp-validation-for="EntityID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EntityTypeID" class="control-label"></label>
+                <input asp-for="EntityTypeID" class="form-control" />
+                <span asp-validation-for="EntityTypeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Not Email Confirmed";
+   // Layout = "~/Views/Shared/_FrontLayout.cshtml";
+}
+
+@*<h1>@ViewData["Title"]</h1>*@
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-lg-6 mb-6 mx-auto">
+            <div class="card h-100">
+                <h4 class="card-header">Email isn't yet confirmed.!</h4>
+                <div class="card-body">
+                    @*<p class="card-text">Create a new account.</p>*@
+                   
+                        <div class="form-group">
+                            <div class="alert alert-info" role="alert">
+                                <h3>Email isn't yet confirmed. </h3>
+                                <h5>An email was sended to you after enrollment.</h5>
+                                <h5>Please confirm your email with the link inside.</h5>
+                                <h5>After confirmation you will immediatly access to your intranet area.</h5>
+</div>
+                        </div>
+
+                </div>
+                @*<div class="card-footer">
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>*@
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

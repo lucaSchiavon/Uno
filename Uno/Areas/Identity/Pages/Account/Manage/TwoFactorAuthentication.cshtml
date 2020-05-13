@@ -1,0 +1,90 @@
+﻿@page
+@model TwoFactorAuthenticationModel
+@{
+    ViewData["Title"] = "Two-factor authentication (2FA)";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@*<h4>@ViewData["Title"]</h4>*@
+
+<!-- inizio form -->
+<div class="row">
+    <div class="col-lg-3">
+        <div class="card shadow mb-4">
+
+
+
+
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Two-factor authentication (2FA)</h6>
+            </div>
+            <div class="card-body">
+                <partial name="_StatusMessage" for="StatusMessage" />
+                <div class="row">
+                    <div class="col-md-12">
+                        @if (Model.Is2faEnabled)
+                        {
+                            if (Model.RecoveryCodesLeft == 0)
+                            {
+                                <div class="alert alert-danger">
+                                    <strong>You have no recovery codes left.</strong>
+                                    <p>You must <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a> before you can log in with a recovery code.</p>
+                                </div>
+                            }
+                            else if (Model.RecoveryCodesLeft == 1)
+                            {
+                                <div class="alert alert-danger">
+                                    <strong>You have 1 recovery code left.</strong>
+                                    <p>You can <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                                </div>
+                            }
+                            else if (Model.RecoveryCodesLeft <= 3)
+                            {
+                                <div class="alert alert-warning">
+                                    <strong>You have @Model.RecoveryCodesLeft recovery codes left.</strong>
+                                    <p>You should <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                                </div>
+                            }
+
+                            if (Model.IsMachineRemembered)
+                            {
+                                <p>
+                                    <form method="post" style="display: inline-block">
+                                        <button type="submit" class="btn btn-primary">Forget this browser</button>
+                                    </form>
+                                </p>
+                                    }
+                                <p>
+                                    <a asp-page="./Disable2fa" class="btn btn-primary">Disable 2FA</a>
+                                    <a asp-page="./GenerateRecoveryCodes" class="btn btn-primary">Reset recovery codes</a>
+                                </p>
+                                }
+
+                                @*<h5>Authenticator app</h5>*@
+                                <p>
+                                    @if (!Model.HasAuthenticator)
+                                    {
+                                        <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Add authenticator app</a>
+                                    }
+                                    else
+                                    {
+
+                                        <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Setup authenticator app</a>
+                                        <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-primary">Reset authenticator app</a>
+                                    }
+                                </p>
+
+
+                            </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+<!-- fine form -->
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

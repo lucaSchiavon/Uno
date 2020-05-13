@@ -1,0 +1,159 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using Uno.Entities;
+
+namespace Uno.Areas.Identity.Pages.Account
+{
+    [AllowAnonymous]
+    public class ExternalLoginModel : PageModel
+    {
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<ExternalLoginModel> _logger;
+
+        public ExternalLoginModel(
+            SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            ILogger<ExternalLoginModel> logger)
+        {
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _logger = logger;
+        }
+
+        [BindProperty]
+        public InputModel Input { get; set; }
+
+        public string LoginProvider { get; set; }
+
+        public string ReturnUrl { get; set; }
+
+        [TempData]
+        public string ErrorMessage { get; set; }
+
+        public class InputModel
+        {
+            [Required]
+            [EmailAddress]
+            public string Email { get; set; }
+        }
+
+        public IActionResult OnGetAsync()
+        {
+            return RedirectToPage("./Login");
+        }
+
+        public IActionResult OnPost(string provider, string returnUrl = null)
+        {
+            //qui viene preparata la chiamata al provider esterno di autenticazione e viene poi chiamato
+            // Request a redirect to the external login provider.
+            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return new ChallengeResult(provider, properties);
+        }
+
+        public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
+        {
+            //questa è la callback che viene chiamata una volta che ci si autentica da facebook o google
+
+            returnUrl = returnUrl ?? Url.Content("~/");
+            if (remoteError != null)
+            {
+                //se ci sono stati errori remoti....
+                ErrorMessage = $"Error from external provider: {remoteError}";
+                return RedirectToPage("./Login", new {ReturnUrl = returnUrl });
+            }
+            //recupera le info di autenticazione inviate dal provider esterno
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                ErrorMessage = "Error loading external login information.";
+                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+            }
+
+            //crea una identità locale associandogli la chiave univoca del provider esterno che identifica identità
+            //cosicchè ogni volta il provider esterno verra impersonificato dall'identità locale una volta trovato il matching
+            //mediante la providerkey e l'utente locale che impersonifica l'autenticazione
+            // Sign in the user with this external login provider if the user already has a login.
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+                return LocalRedirect(returnUrl);
+            }
+            //se l'utente è bloccato non entra
+            if (result.IsLockedOut)
+            {
+                return RedirectToPage("./Lockout");
+            }
+            else
+            {
+                //qui incappa la prima volta che ci si tenta di loggare con un provider esterno ed allora viene
+                //chiesta la mail con cui creare l'utente locale che impersonificherà l'accesso mediante provider esterno
+                // If the user does not have an account, then ask the user to create an account.
+                ReturnUrl = returnUrl;
+                LoginProvider = info.LoginProvider;
+                //viene proposto di usare di default la mail del provider esterno (google o facebook, infatto
+                //la si recupera dal claim
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                {
+                    Input = new InputModel
+                    {
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                    };
+                }
+                return Page();
+            }
+        }
+
+        public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
+        {
+            //questa action viene chiamata quando si conferma la creazione dell'utente locale che impersonificherà
+            //l'utente del provider esterno
+            returnUrl = returnUrl ?? Url.Content("~/");
+            // Get the information about the user from the external login provider
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                ErrorMessage = "Error loading external login information during confirmation.";
+                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+            }
+
+            if (ModelState.IsValid)
+            {
+                //viene creato l'utente locale con la mail scelta (o il default proposto (email provider esterno) 
+                //o la mail imputata manualmente
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        //avviene il login dell'utente locale che impersonifica l'utente provider esterno
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                        return LocalRedirect(returnUrl);
+                    }
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            LoginProvider = info.LoginProvider;
+            ReturnUrl = returnUrl;
+            return Page();
+        }
+    }
+}

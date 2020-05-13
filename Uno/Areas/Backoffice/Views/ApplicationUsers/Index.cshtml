@@ -1,0 +1,126 @@
+﻿@*@model IEnumerable<Uno.Entities.ApplicationUser>*@
+@model IEnumerable<Uno.Models.Identity.ApplicationUserDTO>
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+@section style {
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+}
+
+<!-- Page Heading -->
+@*<h1 class="h3 mb-2 text-gray-800">Tables</h1>
+    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>*@
+<!-- DataTales Example -->
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <p class="text-right">
+                <a asp-action="Create"  class="btn btn-primary">Create New</a>
+            </p>
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        @*<th>@Html.DisplayNameFor(model => model.AddressID)</th>*@
+                        <th>@Html.DisplayNameFor(model => model.Nome)</th>
+                        <th>@Html.DisplayNameFor(model => model.Cognome)</th>
+                        @*<th> @Html.DisplayNameFor(model => model.ImmagineProfilo)</th>*@
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        @*<th>@Html.DisplayNameFor(model => model.AddressID)</th>*@
+                        <th>@Html.DisplayNameFor(model => model.Nome)</th>
+                        <th>@Html.DisplayNameFor(model => model.Cognome)</th>
+                        @*<th> @Html.DisplayNameFor(model => model.ImmagineProfilo)</th>*@
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            @*<td> @Html.DisplayFor(modelItem => item.AddressID)</td>*@
+                            <td> @Html.DisplayFor(modelItem => item.Nome)</td>
+                            <td> @Html.DisplayFor(modelItem => item.Cognome)</td>
+                            @*<td>@Html.DisplayFor(modelItem => item.ImmagineProfilo)</td>*@
+                            <td class="text-right">
+                                <div class="btn-group">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                        <i class="fa fa-cog"></i> Azioni
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <li><a asp-area="Backoffice" asp-controller="ApplicationUsers" asp-action="Details" asp-route-id="@item.Id" style="font-size:0.89rem"><i class="fa fa-search"></i> Visualizza</a></li>
+                                        <li><a asp-area="Backoffice" asp-controller="ApplicationUsers" asp-action="Edit" asp-route-id="@item.Id" style="font-size:0.89rem"><i class="fa fa-edit"></i> Edit</a></li>
+                                        @*<li><a asp-area="Backoffice" asp-controller="ApplicationUsers" asp-action="Delete" asp-route-id="@item.Id" style="font-size:0.89rem"><i class="fa fa-undo"></i> Delete</a></li>*@
+                                        <li><a asp-area="Backoffice" asp-controller="ApplicationUsers" asp-action="DeleteConfirm" asp-route-id="@item.Id" data-toggle="modal" data-id="@item.Id" data-target="#deleteconfirmModal" class="open-delete-item"><i class="fa fa-undo"></i> Delete</a><li>
+
+                                    </ul>
+                                </div>
+
+                                @*<a asp-action="Edit" asp-route-id="@item.AddressID">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.AddressID">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.AddressID">Delete</a>*@
+                            </td>
+
+                        </tr>
+                    }
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- delete confirm Modal-->
+<div class="modal fade" id="deleteconfirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure to delete this item?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Delete" below if you want to delete record and cancel to reject.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                @*<a class="btn btn-primary" href="login.html">Logout</a>*@
+                @*<a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">Delete</a>*@
+                @*<a class="btn btn-primary ADeleteUser"  asp-area="Backoffice" asp-controller="ApplicationUsers" asp-action="Delete" asp-route-id="xxx">Delete</a>*@
+                <a class="btn btn-primary ADeleteUser" >Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable();
+        });
+        $(document).on("click", ".open-delete-item", function () {
+            var UserToDeletedId = $(this).data('id');
+            //$("#ADeleteUser").val(UserToDeletedId);
+            /**/
+            $(".ADeleteUser").attr("href","/Backoffice/ApplicationUsers/DeleteConfirmed/" + UserToDeletedId);
+        /**/
+        // As pointed out in comments,
+        // it is unnecessary to have to manually call the modal.
+        // $('#addBookDialog').modal('show');
+    });
+    </script>
+
+}

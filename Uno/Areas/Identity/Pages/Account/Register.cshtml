@@ -1,0 +1,60 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_FrontLayout.cshtml";
+}
+
+@*<h1>@ViewData["Title"]</h1>*@
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-lg-6 mb-6 mx-auto">
+            <div class="card h-100">
+                <h4 class="card-header">Register</h4>
+                <div class="card-body">
+                    <p class="card-text">Create a new account.</p>
+                    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        @*<h4>Create a new account.</h4>*@
+                        <hr />
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Input.Email"></label>
+                            <input asp-for="Input.Email" class="form-control" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.Password"></label>
+                            <input asp-for="Input.Password" class="form-control" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.ConfirmPassword"></label>
+                            <input asp-for="Input.ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        @*<div class="form-group">
+                            <label asp-for="Input.PIVA"></label>
+                            <input asp-for="Input.PIVA" class="form-control" />
+                            <span asp-validation-for="Input.PIVA" class="text-danger"></span>
+                        </div>*@
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </div>
+                    </form>
+                    <div class="text-center">
+                        <a asp-page="./Login" class="small">Already have an account? login here</a>
+                        @*<a class="small" href="register.html">Create an Account!</a>*@
+                    </div>
+                </div>
+                @*<div class="card-footer">
+                    <a href="#" class="btn btn-primary">Learn More</a>
+                </div>*@
+            </div>
+        </div>
+
+    </div>
+    </div>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
